@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pymysql import connections
 import os
 import boto3
+import numpy as np
 from config import *
 
 app = Flask(__name__)
@@ -38,9 +39,10 @@ def show_image(bucket):
 def home():
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM employee")
-    data = cursor.fetchall()
+    data =  cursor.fetchall()
     contents = show_image(bucket)
-    return render_template('index.html', data = data, contents = contents)
+    emp_data = np.hstack((contents, data))
+    return render_template('index.html', emp_data)
 
 @app.route("/goaddemp")
 def AddEmpPage():

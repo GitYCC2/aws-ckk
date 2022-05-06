@@ -297,7 +297,7 @@
 									<tbody>
 										{% for row in data %}	
 										<tr>
-											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="s3://chowkokkeong-employee/emp-id-{{row[0]}}_image_file" width="40"></div></td>
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src={{ item }} width="40"></div></td>
 											<td>{{row[0]}}</td>
 											<td>{{row[1]}}</td>
 											<td>{{row[2]}}</td>

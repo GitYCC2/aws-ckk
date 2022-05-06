@@ -91,7 +91,8 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('AddEmpOutput.html', name=emp_name)
+    return render_template('index.html')
+    #return render_template('AddEmpOutput.html', name=emp_name)
 
 def show_image(bucket):
     s3_client = boto3.client('s3')

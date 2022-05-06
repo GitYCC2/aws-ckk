@@ -91,7 +91,7 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('index.html')
+    return home
     #return render_template('AddEmpOutput.html', name=emp_name)
 
 def show_image(bucket):

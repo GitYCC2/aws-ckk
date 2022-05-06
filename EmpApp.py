@@ -108,11 +108,7 @@ def AddEmp():
 
     print("all modification done...")
     
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM employee")
-    data = cursor.fetchall()
-    return render_template('index.html', data = data)
-    #return render_template('AddEmpOutput.html', name=emp_name)
+    return render_template('AddEmpOutput.html', name=emp_name)
 
 
 @app.route("/editemp")
@@ -127,6 +123,17 @@ def GetEmpData():
 @app.route("/fetchdata", methods=['GET'])
 def GoBackHome():
     return render_template('AddEmp.html')
+
+@app.route("/deleteemp", methods=["POST"])
+def DeleteEmp():
+    emp_id = request.form['emp_id']
+    emp_file = request.form['emp_file']
+    cursor = db_conn.cursor()
+    cursor.execute("DELETE FROM employee where emp_id = %s", (emp_id))
+    db_conn.commit()
+    s3 = boto3.resource('s3')
+    s3.Object(bucket, emp_file).delete()
+    home()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

@@ -295,14 +295,14 @@
 
 
 									<tbody>
-										{% for row in data %}	
+										{% for row in emp_data %}	
 										<tr>
-											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="" width="40"></div></td>
-											<td>{{row[0]}}</td>
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40"></div></td>
 											<td>{{row[1]}}</td>
 											<td>{{row[2]}}</td>
 											<td>{{row[3]}}</td>
 											<td>{{row[4]}}</td>
+											<td>{{row[5]}}</td>
 											<td>
 												<button class="btn btn-warning">Edit</button>
 												<button class="btn btn-danger">Delete</button>
@@ -312,14 +312,6 @@
 										{% endfor %}
 									</tbody>
 								</table>
-								
-								<ul>
-													    {% for item in contents %}
-													      <li>
-														<img src={{ item }} style="width: 250px">
-													      </li>
-													    {% endfor %}
-													  </ul>
 							</div>
 						</div>
 					</div>

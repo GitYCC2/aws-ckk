@@ -93,13 +93,26 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
+def show_image(bucket):
+    s3_client = boto3.client('s3')
+    public_urls = []
+    try:
+        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
+            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
+            public_urls.append(presigned_url)
+    except Exception as e:
+        pass
+    # print("[INFO] : The contents inside show_image = ", public_urls)
+    return public_urls
+
 @app.route("/editemp")
 def GetEmpData():
     id = request.form['emp_id']
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM employee where emp_id = %s", (id))
     data = cursor.fetchall()
-    return render_template('GetEmp.html', data = data)
+    contents = show_image(bucket)
+    return render_template('GetEmp.html', data = data, contents = contents)
 
 @app.route("/fetchdata", methods=['GET'])
 def GoBackHome():

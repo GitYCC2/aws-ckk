@@ -42,7 +42,7 @@ def home():
     data =  cursor.fetchall()
     contents = show_image(bucket)
     emp_data = np.column_stack((contents, data))
-    return render_template('index.html', emp_data)
+    return render_template('index.html', emp_data = emp_data)
 
 @app.route("/goaddemp")
 def AddEmpPage():

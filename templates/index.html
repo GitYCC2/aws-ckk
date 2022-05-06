@@ -306,18 +306,20 @@
 											<td>
 												<button class="btn btn-warning">Edit</button>
 												<button class="btn btn-danger">Delete</button>
-												          <ul>
+												          
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+								
+								<ul>
 													    {% for item in contents %}
 													      <li>
 														<img src={{ item }} style="width: 250px">
 													      </li>
 													    {% endfor %}
 													  </ul>
-											</td>
-										</tr>
-										{% endfor %}
-									</tbody>
-								</table>
 							</div>
 						</div>
 					</div>

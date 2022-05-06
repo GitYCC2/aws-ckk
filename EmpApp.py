@@ -91,7 +91,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return home
+    
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT * FROM employee")
+    data = cursor.fetchall()
+    return render_template('index.html', data = data)
     #return render_template('AddEmpOutput.html', name=emp_name)
 
 def show_image(bucket):

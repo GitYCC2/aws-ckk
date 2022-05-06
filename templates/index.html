@@ -296,7 +296,7 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="deleteemp" method="POST" enctype="multipart/form-data">
+										<form action="/deleteemp" method="POST" enctype="multipart/form-data">
 										<tr>
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
@@ -305,8 +305,8 @@
 											<td>{{row[1]}}<input type="hidden" name="emp_id" value="{row[1]}"/></td>
 											<td>{{row[2]}}<input type="hidden" name="first_name" value="{row[2]}"/></td>
 											<td>{{row[3]}}<input type="hidden" name="last_name" value="{row[3]}"/></td>
-											<td>{{row[4]}}<input type="hidden" name="emp_id" value="{row[4]}"/></td>
-											<td>{{row[5]}}<input type="hidden" name="emp_id" value="{row[5]}"/></td>
+											<td>{{row[4]}}<input type="hidden" name="pri_skill" value="{row[4]}"/></td>
+											<td>{{row[5]}}<input type="hidden" name="location" value="{row[5]}"/></td>
 											<td>
 												<button class="btn btn-warning">Edit</button>
 												<button class="btn btn-danger" type="submit" name="deleteBtn">Delete</button>

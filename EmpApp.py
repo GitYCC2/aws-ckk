@@ -41,7 +41,7 @@ def home():
     cursor.execute("SELECT * FROM employee")
     data =  cursor.fetchall()
     contents = show_image(bucket)
-    emp_data = np.hstack((contents, data))
+    emp_data = np.column_stack((contents, data))
     return render_template('index.html', emp_data)
 
 @app.route("/goaddemp")

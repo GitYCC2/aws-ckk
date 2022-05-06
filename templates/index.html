@@ -295,20 +295,25 @@
 
 
 									<tbody>
-										{% for row in emp_data %}	
+										{% for row in emp_data %}
+										<form action="deleteemp" method="POST" enctype="multipart/form-data">
 										<tr>
-											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40"></div></td>
-											<td>{{row[1]}}</td>
-											<td>{{row[2]}}</td>
-											<td>{{row[3]}}</td>
-											<td>{{row[4]}}</td>
-											<td>{{row[5]}}</td>
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
+												<input type="hidden" name="emp_file" value="{row[0]}"/>
+												</div>
+											</td>
+											<td>{{row[1]}}<input type="hidden" name="emp_id" value="{row[1]}"/></td>
+											<td>{{row[2]}}<input type="hidden" name="first_name" value="{row[2]}"/></td>
+											<td>{{row[3]}}<input type="hidden" name="last_name" value="{row[3]}"/></td>
+											<td>{{row[4]}}<input type="hidden" name="emp_id" value="{row[4]}"/></td>
+											<td>{{row[5]}}<input type="hidden" name="emp_id" value="{row[5]}"/></td>
 											<td>
 												<button class="btn btn-warning">Edit</button>
-												<button class="btn btn-danger" type="submit" name="deleteBtn" value="{{row[1]}}" formaction="deleteemp">Delete</button>
+												<button class="btn btn-danger" type="submit" name="deleteBtn">Delete</button>
 												          
 											</td>
 										</tr>
+										</form>	
 										{% endfor %}
 									</tbody>
 								</table>

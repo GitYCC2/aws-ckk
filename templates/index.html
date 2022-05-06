@@ -297,7 +297,7 @@
 									<tbody>
 										{% for row in data %}	
 										<tr>
-											<td><div class="d-flex align-items-center"><img class="rounded-circle" src={{ item }} width="40"></div></td>
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="" width="40"></div></td>
 											<td>{{row[0]}}</td>
 											<td>{{row[1]}}</td>
 											<td>{{row[2]}}</td>
@@ -305,7 +305,14 @@
 											<td>{{row[4]}}</td>
 											<td>
 												<button class="btn btn-warning">Edit</button>
-												<button class="btn btn-danger">Delete</button>	
+												<button class="btn btn-danger">Delete</button>
+												          <ul>
+													    {% for item in contents %}
+													      <li>
+														<img src={{ item }} style="width: 250px">
+													      </li>
+													    {% endfor %}
+													  </ul>
 											</td>
 										</tr>
 										{% endfor %}

@@ -86,24 +86,28 @@
 					<form action = "/checkin" method="POST">
 						<div class="mb-3">
 							<label for = "empName" class="form-label">Name:</label>
-							<select class="js-example-basic-single" name="emp" style="width:100%;" id = "checkinlist">
-							  <option value="">Chi Chun</option>
+							<select class="js-example-basic-single" name="emp_id" style="width:100%;" id = "checkinlist">
+								{% for row in checkin_data %}
+									<option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
+								{% endfor %}	
+								
+							  <!--<option value="">Chi Chun</option>
 							  <option value="">Jia Kang</option>					
-							  <option value="">Kok Keong</option>
+							  <option value="">Kok Keong</option>-->
 							</select>
 						</div>
 						<div class="mb-3">
 							<label for = "date" class="form-label">Date:</label>
-							<input type="text" name="date" class="form-control" id="checkinDate">				
+							<input type="text" name="checkin_date" class="form-control" id="checkinDate">				
 						</div>
 						<div class="mb-3">
 							<label for = "time" class="form-label">Time:</label>
-							<input type="text" name="time"  class="form-control" id="checkinTime">
+							<input type="text" name="checkin_time"  class="form-control" id="checkinTime">
 						</div>				
 				  </div>
 				  <div class="modal-footer">
 						<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Check-In</button>	
+						<button type="submit" class="btn btn-primary">Check-In</button>	
 				  </div>
 				  </form>
 				</div>
@@ -124,26 +128,26 @@
 					<form action = "/checkout" method="POST">
 						<div class="mb-3">
 							<label for = "empName" class="form-label">Name:</label>
-							<select class="js-example-basic-single" name="emp" style="width:100%;" id = "checkoutList">
-							  <option value="">Chi Chun</option>
-							  <option value="">Jia Kang</option>					
-							  <option value="">Kok Keong</option>
+							<select class="js-example-basic-single" name="emp_id" style="width:100%;" id = "checkoutList">
+								{% for row in checkout_data %}
+									<option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="mb-3">
 							<label for = "date" class="form-label">Date:</label>
-							<input type="text" name="date" class="form-control" id="checkoutDate">
+							<input type="text" name="checkout_date" class="form-control" id="checkoutDate">
 							
 						</div>
 						<div class="mb-3">
 							<label for = "time" class="form-label">Time:</label>
-							<input type="text" name="time"  class="form-control" id="checkoutTime">
+							<input type="text" name="checkout_time"  class="form-control" id="checkoutTime">
 						</div>
 					
 				  </div>
 				  <div class="modal-footer">
 						<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Check-Out</button>				
+						<button type="submit" class="btn btn-primary">Check-Out</button>				
 				  </div>
 				  </form>
 				</div>

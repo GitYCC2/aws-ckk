@@ -24,10 +24,12 @@ table = 'employee'
 @app.route("/deleteemp", methods=['POST'])
 def DeleteEmp():
     emp_id = request.form['emp_id']
-    emp_file = request.form['emp_file']
-    #temp_file = request.form['emp_file']
-    #split_file = temp_file.split('/')
-    #emp_file = split_file[3]
+    #emp_file = request.form['emp_file']
+    temp_file = request.form['emp_file']
+    split_file = temp_file.split('/')
+    emp_file = split_file[3]
+    print(emp_file)
+    
     cursor = db_conn.cursor()
     try: 
         s3 = boto3.resource('s3')

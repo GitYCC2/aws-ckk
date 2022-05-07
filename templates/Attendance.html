@@ -86,7 +86,7 @@
 					<form action = "/checkin" method="POST">
 						<div class="mb-3">
 							<label for = "empName" class="form-label">Name:</label>
-							<select class="js-example-basic-single" name="emp_id" style="width:100%;" id = "checkinlist">
+							<select class="js-example-basic-single" name="emp_id" style="width:100%;" id = "checkinList">
 								{% for row in checkin_data %}
 									<option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
 								{% endfor %}	

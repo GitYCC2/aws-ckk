@@ -25,7 +25,7 @@ table = 'employee'
 def DeleteEmp():
     emp_id = request.form['emp_id']
     temp_file = request.form['emp_file']
-    split_file = temp_file('/')
+    split_file = temp_file.split('/')
     emp_file = split_file[3]
     cursor = db_conn.cursor()
     try: 

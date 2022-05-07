@@ -24,7 +24,7 @@ table = 'employee'
 @app.route("/deleteemp", methods=['POST'])
 def DeleteEmp():
     emp_id = request.form['emp_id']
-    #emp_file = request.form['emp_file']
+    emp_file = request.form['emp_file']
     cursor = db_conn.cursor()
     try:    
         sql = "DELETE FROM employee WHERE emp_id = %s"
@@ -35,9 +35,15 @@ def DeleteEmp():
     except Exception as e:
         return str(e)
     
-    #s3 = boto3.resource('s3')
-    #s3.Object(bucket, emp_file).delete()
-    return home
+    s3 = boto3.resource('s3')
+    s3.Object(bucket, emp_file).delete()
+    
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT * FROM employee")
+    data =  cursor.fetchall()
+    contents = show_image(bucket)
+    emp_data = np.column_stack((contents, data))
+    return render_template('index.html', emp_data = emp_data)
 
 def show_image(bucket):
     s3_client = boto3.client('s3')

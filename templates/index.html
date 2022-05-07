@@ -97,7 +97,7 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="{{ url_for('deleteemp') }}" method="POST">
+										<form action="{{ url_for('DeleteEmp') }}" method="POST">
 										<tr>
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>

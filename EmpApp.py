@@ -65,12 +65,7 @@ def ManageEmp():
         row = [emp_file, emp_id, first_name, last_name, pri_skill, location]
         return render_template('EditEmp.html', row = row) 
 
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM employee")
-    data =  cursor.fetchall()
-    contents = show_image(bucket)
-    emp_data = np.column_stack((contents, data))
-    return render_template('index.html', emp_data = emp_data)
+    return redirect(url_for('home'))
 
 @app.route("/editemp", methods=['POST'])
 def EditEmp():
@@ -116,12 +111,7 @@ def EditEmp():
     finally:
         cursor.close()
         
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM employee")
-    data =  cursor.fetchall()
-    contents = show_image(bucket)
-    emp_data = np.column_stack((contents, data))
-    return render_template('index.html', emp_data = emp_data)
+    return redirect(url_for('home'))
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -141,7 +131,9 @@ def AttendancePage():
     cursor = db_conn.cursor()
     
     # Get employee who hasn't checked in 
-    cursor.execute("SELECT distinct(e.emp_id), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkin_time IS NOT NULL AND a.checkout_date IS NULL")
+    cursor.execute("SELECT emp_id, first_name, last_name FROM employee WHERE emp_id NOT IN (SELECT distinct(e.emp_id)
+                    FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id 
+                    WHERE a.checkin_time IS NOT NULL AND a.checkout_date IS NULL)")
     checkin_data =  cursor.fetchall()
 
     # Get employee who has checked in but haven't checkout
@@ -237,13 +229,7 @@ def AddEmp():
 
     print("all modification done...")
     
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM employee")
-    data =  cursor.fetchall()
-    contents = show_image(bucket)
-    emp_data = np.column_stack((contents, data))
-    return render_template('index.html', emp_data = emp_data)
-
+    return redirect(url_for('home'))
 
 @app.route("/editemp")
 def GetEmpData():

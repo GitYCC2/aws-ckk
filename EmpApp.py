@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from pymysql import connections
 import os
 import boto3
@@ -137,8 +137,45 @@ def AddEmpPage():
     return render_template('AddEmp.html')
 
 @app.route("/attendance")
-def GoAttendancePage():
-    return render_template('Attendance.html')
+def AttendancePage():
+    cursor = db_conn.cursor()
+    
+    # Get employee who hasn't checked in 
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.emp_id IS NULL")
+    checkin_data =  cursor.fetchall()
+
+    # Get employee who has checked in but haven't checkout
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_time IS NULL AND a.emp_id IS NOT NULL")
+    checkout_data =  cursor.fetchall()
+    
+    return render_template('Attendance.html', checkin_data = checkin_data, checkout_data = checkout_data)
+
+@app.route("/checkin", methods=['POST'])
+def CheckIn():
+    emp_id = request.form['emp_id']
+    checkin_time = request.form['checkin_time']
+    checkin_date = request.form['checkin_date']
+    insert_sql = "INSERT INTO attendance (checkin_time, checkin_date, emp_id) VALUES (%s, %s, %s)"
+    cursor = db_conn.cursor()
+    cursor.execute(insert_sql, (checkin_time, checkin_date, emp_id))
+    db_conn.commit()
+    cursor.close()
+    
+    return redirect(url_for('/attendance'))
+  
+@app.route("/checkout", methods=['POST'])
+def CheckOut():
+    emp_id = request.form['emp_id']
+    checkout_time = request.form['checkout_time']
+    checkout_date = request.form['checkout_date']
+    update_sql = "UPDATE attendance SET checkout_time=%s, checkout_date=%s WHERE emp_id=%s AND checkout_time IS NULL"
+    cursor = db_conn.cursor()
+    cursor.execute(update_sql, (checkout_time, checkout_date, emp_id))
+    db_conn.commit()
+    cursor.close()
+    
+    return redirect(url_for('/attendance'))    
+    
 
 @app.route("/about", methods=['POST'])
 def about():

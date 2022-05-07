@@ -24,7 +24,9 @@ table = 'employee'
 @app.route("/deleteemp", methods=['POST'])
 def DeleteEmp():
     emp_id = request.form['emp_id']
-    emp_file = request.form['emp_file']
+    temp_file = request.form['emp_file']
+    split_file = temp_file("/")
+    emp_file = split_file[3]
     cursor = db_conn.cursor()
     try:    
         sql = "DELETE FROM employee WHERE emp_id = %s"

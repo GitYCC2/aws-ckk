@@ -31,6 +31,33 @@
 	margin-right: 5px;
 	margin-top: 10px;
 }
+	
+.image-area {
+    border: 2px dashed #ccc;
+    padding: 2rem;
+    position: relative;
+	width:20%;
+	height:20%;
+	margin: auto;
+}
+
+.image-area::before {
+    content: 'Your Profile';
+    color: #ccc;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
 
 </style>
 
@@ -76,7 +103,7 @@
 			<main class="content">
 			<div class="container-fluid p-0">
 			
-			<h1 class="h3 mb-3">Add Employee</h1>
+			<h1 class="h3 mb-3">Edit Employee</h1>
 			
 		<div class = "row">
 		<div class="col-12 col-lg-6" style="width:100%;">
@@ -85,30 +112,35 @@
 
 				<!--<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>-->
 				
+					
 					<div class="card-body">
 						<div class="mb-3">
+							<p class="font-italic  text-center">Profile Image</p>
+							<div class="image-area mt-4"><img id="imageResult" src="{{row[0]}}" alt="" class="img-fluid rounded shadow-sm mx-auto d-block" ></div>
+						</div>
+						<div class="mb-3">
 							<label for = "employeeid" class="form-label">Employee ID:</label>
-							<input type="number" name="emp_id" autofocus size="40" class="form-control" value="{{row[0]}}">
+							<input type="number" name="emp_id" autofocus size="40" class="form-control" value="{{row[1]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "firstname" class="form-label">First Name:</label> 
-							<input type="text" name="first_name" class="form-control" value="{{row[1]}}">
+							<input type="text" name="first_name" class="form-control" value="{{row[2]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "lastname" class="form-label">Last Name:</label> 
-							<input type="text" name="last_name" class="form-control" value="{{row[2]}}">
+							<input type="text" name="last_name" class="form-control" value="{{row[3]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "primskill" class="form-label">Primary Skills:</label> 
-							<input type="text" name="pri_skill" class="form-control" value="{{row[3]}}">
+							<input type="text" name="pri_skill" class="form-control" value="{{row[4]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "location" class="form-label">Location:</label> 
-							<input type="text" name="location" class="form-control" value="{{row[4]}}">
+							<input type="text" name="location" class="form-control" value="{{row[5]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "img" class="form-label">Image: </label>
-							<input type=file name="emp_image_file" class="form-control">
+							<input type=file name="emp_image_file" class="form-control" onchange="readURL(this);" id="upload">
 						</div>
 						<div class="mb-3">
 							<button type="submit" class="btn btn-primary custom">Edit</button>
@@ -132,5 +164,34 @@
 		</body>
 		
 		<script src="{{ url_for('static',filename='js/app.js') }}"></script>
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(function () {
+    $('#upload').on('change', function () {
+        readURL(input);
+    });
+});
+
+var input = document.getElementById( 'upload' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = 'File name: ' + fileName;
+}
+</script>
 
 </html>

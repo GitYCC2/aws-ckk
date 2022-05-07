@@ -21,6 +21,18 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee'
 
+def show_image(bucket):
+    s3_client = boto3.client('s3')
+    public_urls = []
+    try:
+        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
+            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
+            public_urls.append(presigned_url)
+    except Exception as e:
+        pass
+    # print("[INFO] : The contents inside show_image = ", public_urls)
+    return public_urls
+
 @app.route("/manageemp", methods=['POST'])
 def ManageEmp():
     if request.form['submitBtn'] == 'deleteBtn':
@@ -43,7 +55,15 @@ def ManageEmp():
         except Exception as e:
             return str(e)
     elif request.form['submitBtn'] == 'editBtn':
-        return render_template('AddEmp.html') 
+        emp_id = request.form['emp_id']
+        emp_file = request.form['emp_file']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        pri_skill = request.form['pri_skill']
+        location = request.form['location']
+        
+        row = [emp_file, emp_id, first_name, last_name, pri_skill, location]
+        return render_template('EditEmp.html', row = row) 
 
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM employee")
@@ -52,18 +72,56 @@ def ManageEmp():
     emp_data = np.column_stack((contents, data))
     return render_template('index.html', emp_data = emp_data)
 
-def show_image(bucket):
-    s3_client = boto3.client('s3')
-    public_urls = []
-    try:
-        for item in s3_client.list_objects(Bucket=bucket)['Contents']:
-            presigned_url = s3_client.generate_presigned_url('get_object', Params = {'Bucket': bucket, 'Key': item['Key']}, ExpiresIn = 100)
-            public_urls.append(presigned_url)
-    except Exception as e:
-        pass
-    # print("[INFO] : The contents inside show_image = ", public_urls)
-    return public_urls
+@app.route("/editemp", methods=['POST'])
+def EditEmp():
+    emp_id = request.form['emp_id'] 
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_file = request.files['emp_image_file']
+    
+    update_sql = "UPDATE employee SET first_name=%s, last_name=%s, pri_skill=%s, location=%s WHERE emp_id=%s"
+    cursor = db_conn.cursor()
 
+    try:
+        cursor.execute(update_sql, (emp_id, first_name, last_name, pri_skill, location))
+        db_conn.commit()
+        
+        try:
+            if emp_image_file.filename is not "":
+                #emp_name = "" + first_name + " " + last_name
+                # Uplaod image file in S3 #
+                emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+                s3 = boto3.resource('s3')
+                
+                print("Data inserted in MySQL RDS... uploading image to S3...")
+                s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+                s3_location = (bucket_location['LocationConstraint'])
+
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
+
+                object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                    s3_location,
+                    custombucket,
+                    emp_image_file_name_in_s3)
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+        
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT * FROM employee")
+    data =  cursor.fetchall()
+    contents = show_image(bucket)
+    emp_data = np.column_stack((contents, data))
+    return render_template('index.html', emp_data = emp_data)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():

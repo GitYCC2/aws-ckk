@@ -175,31 +175,17 @@
 										</tr>
 									</thead>
 									<tbody>
+										{% for row in attendance_data %}
+										<tr>
+											<td>{{row[0]}}</td>
+											<td>{{row[1]}} {{row[2]}}</td>
+											<td>{{row[3]}}</td>
+											<td>{{row[4]}}</td>
+											<td>{{row[5]}}</td>
+											<td>{{row[6]}}</td>
+										</tr>
+										{% endfor %}
 										
-										<tr>
-											<td>A10</td>
-											<td>Tiger Nixon</td>
-											<td>2022-05-27</td>
-											<td>16:00:00</td>
-											<td>2022-05-27</td>
-											<td>18:00:00</td>
-										</tr>
-										<tr>
-											<td>A11</td>
-											<td>Tiger Nixon</td>
-											<td>2022-05-27</td>
-											<td>16:00:00</td>
-											<td>2022-05-27</td>
-											<td>18:00:00</td>
-										</tr>
-										<tr>
-											<td>A12</td>
-											<td>Tiger Nixon</td>
-											<td>2022-05-27</td>
-											<td>16:00:00</td>
-											<td>2022-05-27</td>
-											<td>18:00:00</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>

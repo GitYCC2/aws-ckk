@@ -85,7 +85,7 @@ def EditEmp():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(update_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(update_sql, (first_name, last_name, pri_skill, location, emp_id))
         db_conn.commit()
         
         try:

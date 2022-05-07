@@ -90,19 +90,17 @@
 								{% for row in checkin_data %}
 									<option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
 								{% endfor %}	
-								
-							  <!--<option value="">Chi Chun</option>
-							  <option value="">Jia Kang</option>					
-							  <option value="">Kok Keong</option>-->
 							</select>
 						</div>
 						<div class="mb-3">
 							<label for = "date" class="form-label">Date:</label>
-							<input type="text" name="checkin_date" class="form-control" id="checkinDate">				
+							<input type="text" class="form-control" id="checkinDateText" disabled>
+							<input type="hidden" name="checkin_date" class="form-control" id="checkinDate">	
 						</div>
 						<div class="mb-3">
 							<label for = "time" class="form-label">Time:</label>
-							<input type="text" name="checkin_time"  class="form-control" id="checkinTime">
+							<input type="text"  class="form-control" id="checkinTimeText" disabled>
+							<input type="text" name="checkin_time" class="form-control" id="checkinTime">	
 						</div>				
 				  </div>
 				  <div class="modal-footer">
@@ -136,12 +134,13 @@
 						</div>
 						<div class="mb-3">
 							<label for = "date" class="form-label">Date:</label>
-							<input type="text" name="checkout_date" class="form-control" id="checkoutDate">
-							
+							<input type="text" class="form-control" id="checkoutDateText">
+							<input type="hidden" name="checkout_date" class="form-control" id="checkoutDate">
 						</div>
 						<div class="mb-3">
 							<label for = "time" class="form-label">Time:</label>
-							<input type="text" name="checkout_time"  class="form-control" id="checkoutTime">
+							<input type="text"  class="form-control" id="checkoutTimeText">
+							<input type="hidden" name="checkout_time"  class="form-control" id="checkoutTime">
 						</div>
 					
 				  </div>
@@ -230,10 +229,21 @@
 		var checkInTime = document.getElementById("checkinTime");
 		var checkOutDate = document.getElementById("checkoutDate");
 		var checkOutTime = document.getElementById("checkoutTime");
+		
+		var checkInDateText = document.getElementById("checkinDateText");
+		var checkInTimeText = document.getElementById("checkinTimeText");
+		var checkOutDateText = document.getElementById("checkoutDateText");
+		var checkOutTimeText = document.getElementById("checkoutTimeText");
+		
         	checkInDate.value = currentdate.getFullYear() + "-" + (currentdate.getMonth()+1) + "-" + currentdate.getDate();
 		checkInTime.value = currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + 0;
 		checkOutDate.value = currentdate.getFullYear() + "-" + (currentdate.getMonth()+1) + "-" + currentdate.getDate();
 		checkOutTime.value = currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + 0;
+		
+		checkInDateText.value = currentdate.getFullYear() + "-" + (currentdate.getMonth()+1) + "-" + currentdate.getDate();
+		checkInTimeText.value = currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + 0;
+		checkOutDateText.value = currentdate.getFullYear() + "-" + (currentdate.getMonth()+1) + "-" + currentdate.getDate();
+		checkOutTimeText.value = currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + 0;
     }
 
 	

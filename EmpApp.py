@@ -125,7 +125,12 @@ def AddEmp():
 
     print("all modification done...")
     
-    return render_template('AddEmpOutput.html', name=emp_name)
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT * FROM employee")
+    data =  cursor.fetchall()
+    contents = show_image(bucket)
+    emp_data = np.column_stack((contents, data))
+    return render_template('index.html', emp_data = emp_data)
 
 
 @app.route("/editemp")

@@ -149,7 +149,7 @@ def AttendancePage():
     checkout_data =  cursor.fetchall()
     
     # Get employee attendance record
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, a.checkin_time, a.checkin_date, a.checkout_time, a.checkout_date FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id")
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, a.checkin_time, a.checkin_date, a.checkout_time, a.checkout_date FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.emp_id IS NOT NULL")
     attendance_data = cursor.fetchall()
     
     return render_template('Attendance.html', checkin_data = checkin_data, checkout_data = checkout_data, attendance_data = attendance_data)

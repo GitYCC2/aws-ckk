@@ -141,14 +141,18 @@ def AttendancePage():
     cursor = db_conn.cursor()
     
     # Get employee who hasn't checked in 
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.emp_id IS NULL")
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.emp_id IS NULL OR a.checkout_time IS NOT NULL")
     checkin_data =  cursor.fetchall()
 
     # Get employee who has checked in but haven't checkout
     cursor.execute("SELECT e.emp_id, e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_time IS NULL AND a.emp_id IS NOT NULL")
     checkout_data =  cursor.fetchall()
     
-    return render_template('Attendance.html', checkin_data = checkin_data, checkout_data = checkout_data)
+    # Get employee attendance record
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, a.checkin_time, a.checkin_date, a.checkout_time, a.checkout_date FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id")
+    attendance_data = cursor.fetchall()
+    
+    return render_template('Attendance.html', checkin_data = checkin_data, checkout_data = checkout_data, attendance_data = attendance_data)
 
 @app.route("/checkin", methods=['POST'])
 def CheckIn():
@@ -161,7 +165,7 @@ def CheckIn():
     db_conn.commit()
     cursor.close()
     
-    return redirect(url_for('/attendance'))
+    return redirect(url_for('attendance'))
   
 @app.route("/checkout", methods=['POST'])
 def CheckOut():
@@ -174,7 +178,7 @@ def CheckOut():
     db_conn.commit()
     cursor.close()
     
-    return redirect(url_for('/attendance'))    
+    return redirect(url_for('attendance'))    
     
 
 @app.route("/about", methods=['POST'])

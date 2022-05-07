@@ -26,8 +26,15 @@ def DeleteEmp():
     emp_id = 5
     #emp_file = request.form['emp_file']
     cursor = db_conn.cursor()
-    cursor.execute("DELETE FROM employee WHERE emp_id = %s", (emp_id))
-    db_conn.commit()
+    try:    
+        sql = "DELETE FROM employee WHERE emp_id = %s"
+        delete_emp = (emp_id,)
+        cursor.execute(sql, delete_emp)
+        db_conn.commit()
+        cursor.close()
+    except Exception as e:
+        return str(e)
+    
     #s3 = boto3.resource('s3')
     #s3.Object(bucket, emp_file).delete()
     render_template('AddEmp.html')

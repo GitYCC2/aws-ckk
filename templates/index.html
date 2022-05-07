@@ -99,7 +99,7 @@
 										{% for row in emp_data %}
 										
 										<tr>
-											<form action="/deleteemp" method="POST">
+											<form action="/manageemp" method="POST">
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{{row[0]}}"/>
 											</div>
@@ -110,9 +110,8 @@
 											<td>{{row[4]}}<input type="hidden" name="pri_skill" value="{{row[4]}}"/></td>
 											<td>{{row[5]}}<input type="hidden" name="location" value="{{row[5]}}"/></td>
 											<td>
-												<button class="btn btn-warning">Edit</button>
-												<button class="btn btn-danger" type="submit">Delete</button>
-												<input type="text" value="{{row[0]}}"/>
+												<button class="btn btn-warning" name="submitBtn" type="submit" value="editBtn">Edit</button>
+												<button class="btn btn-danger" name="submitBtn" type="submit" value="deleteBtn">Delete</button>
 												          
 											</td>
 											</form>

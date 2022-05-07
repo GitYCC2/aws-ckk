@@ -99,11 +99,11 @@
 										{% for row in emp_data %}
 										<form action="/deleteemp" method="POST">
 										<tr>
-											<td><a href="{{row[0]}}"<div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
-											</div></a>
+											</div>
 											</td>
-											<td><a href="{{row[1]}}">{{row[1]}}</a><input type="hidden" name="emp_id" value="{row[1]}"/></td>
+											<td>{{row[1]}}<input type="hidden" name="emp_id" value="{row[1]}"/></td>
 											<td>{{row[2]}}<input type="hidden" name="first_name" value="{row[2]}"/></td>
 											<td>{{row[3]}}<input type="hidden" name="last_name" value="{row[3]}"/></td>
 											<td>{{row[4]}}<input type="hidden" name="pri_skill" value="{row[4]}"/></td>

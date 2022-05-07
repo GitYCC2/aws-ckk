@@ -165,7 +165,7 @@ def CheckIn():
     db_conn.commit()
     cursor.close()
     
-    return redirect(url_for('attendance'))
+    return redirect(url_for('AttendancePage'))
   
 @app.route("/checkout", methods=['POST'])
 def CheckOut():
@@ -178,7 +178,7 @@ def CheckOut():
     db_conn.commit()
     cursor.close()
     
-    return redirect(url_for('attendance'))    
+    return redirect(url_for('AttendancePage'))    
     
 
 @app.route("/about", methods=['POST'])

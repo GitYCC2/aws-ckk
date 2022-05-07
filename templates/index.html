@@ -97,11 +97,7 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="/deleteemp" method="POST">
-											<input type = "hidden" name="emp_id" value = "3"/>
-											<input type = "hidden" name="emp_file" value = "emp-id-3_image_file"/>
-								<button class="btn btn-danger" type="submit">Delete</button>
-										</form>	
+										
 										<tr>
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
@@ -124,11 +120,14 @@
 								</table>
 				
 				<form action="/deleteemp" method="POST">
-					<input type = "hidden" name="emp_id" value = "3"/>
+											<input type = "hidden" name="emp_id" value = "3"/>
+											<input type = "hidden" name="emp_file" value = "emp-id-3_image_file"/>
 								<button class="btn btn-danger" type="submit">Delete</button>
-					<input type = "hidden" name="emp_id" value = "4"/>
+					
+					<form action="/deleteemp" method="POST">
+											<input type = "hidden" name="emp_id" value = "4"/>
+											<input type = "hidden" name="emp_file" value = "emp-id-4_image_file"/>
 								<button class="btn btn-danger" type="submit">Delete</button>
-				</form>
 							</div>
 						</div>
 					</div>

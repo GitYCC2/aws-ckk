@@ -42,7 +42,7 @@ def ManageEmp():
             cursor.close()
         except Exception as e:
             return str(e)
-    elseif request.form['submitBtn'] == 'editBtn':
+    elif request.form['submitBtn'] == 'editBtn':
         return render_template('AddEmp.html') 
 
     cursor = db_conn.cursor()

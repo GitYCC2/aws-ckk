@@ -126,14 +126,14 @@ def GoBackHome():
 
 @app.route("/deleteemp", methods=['POST'])
 def DeleteEmp():
-    emp_id = request.form['emp_id']
-    emp_file = request.form['emp_file']
+    emp_id = 5
+    #emp_file = request.form['emp_file']
     cursor = db_conn.cursor()
     cursor.execute("DELETE FROM employee WHERE emp_id = %s", (emp_id))
     db_conn.commit()
-    s3 = boto3.resource('s3')
-    s3.Object(bucket, emp_file).delete()
-    return home()
+    #s3 = boto3.resource('s3')
+    #s3.Object(bucket, emp_file).delete()
+    render_template('AddEmp.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

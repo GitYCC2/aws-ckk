@@ -23,7 +23,7 @@ table = 'employee'
 
 @app.route("/deleteemp", methods=['POST'])
 def DeleteEmp():
-    emp_id = 5
+    emp_id = request.form['emp_id']
     #emp_file = request.form['emp_file']
     cursor = db_conn.cursor()
     try:    
@@ -37,7 +37,7 @@ def DeleteEmp():
     
     #s3 = boto3.resource('s3')
     #s3.Object(bucket, emp_file).delete()
-    render_template('AddEmp.html')
+    return redirect(request.url)
 
 def show_image(bucket):
     s3_client = boto3.client('s3')

@@ -99,6 +99,7 @@
 										{% for row in emp_data %}
 										
 										<tr>
+											<form action="/deleteemp" method="POST">
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
 											</div>
@@ -113,6 +114,7 @@
 												<button class="btn btn-danger" type="submit">Delete</button>
 												          
 											</td>
+											</form>
 										</tr>
 											
 										{% endfor %}

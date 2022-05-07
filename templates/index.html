@@ -97,13 +97,16 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="{{ url_for('DeleteEmp') }}" method="POST">
+										<form action="/deleteemp" method="POST">
+											<input type = "hidden" name="emp_id" value = "3"/>
+								<button class="btn btn-danger" type="submit">Delete</button>
+										</form>	
 										<tr>
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
 											</div>
 											</td>
-											<td>{{row[1]}}<input type="hidden" name="emp_id" value="{row[1]}"/></td>
+											<td>{{row[1]}}<input type="hidden" value="{row[1]}"/></td>
 											<td>{{row[2]}}<input type="hidden" name="first_name" value="{row[2]}"/></td>
 											<td>{{row[3]}}<input type="hidden" name="last_name" value="{row[3]}"/></td>
 											<td>{{row[4]}}<input type="hidden" name="pri_skill" value="{row[4]}"/></td>
@@ -114,7 +117,7 @@
 												          
 											</td>
 										</tr>
-										</form>	
+											
 										{% endfor %}
 									</tbody>
 								</table>

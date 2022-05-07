@@ -37,7 +37,7 @@ def DeleteEmp():
     
     #s3 = boto3.resource('s3')
     #s3.Object(bucket, emp_file).delete()
-    return redirect(request.url)
+    return home
 
 def show_image(bucket):
     s3_client = boto3.client('s3')

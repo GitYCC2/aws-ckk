@@ -131,9 +131,7 @@ def AttendancePage():
     cursor = db_conn.cursor()
     
     # Get employee who hasn't checked in 
-    cursor.execute("SELECT emp_id, first_name, last_name FROM employee WHERE emp_id NOT IN (SELECT distinct(e.emp_id)" +
-                    "FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id" +
-                    "WHERE a.checkin_time IS NOT NULL AND a.checkout_date IS NULL)")
+    cursor.execute("SELECT emp_id, first_name, last_name FROM employee WHERE emp_id NOT IN (SELECT distinct(e.emp_id) FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkin_time IS NOT NULL AND a.checkout_date IS NULL)")
     checkin_data =  cursor.fetchall()
 
     # Get employee who has checked in but haven't checkout

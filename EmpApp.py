@@ -25,10 +25,13 @@ table = 'employee'
 def DeleteEmp():
     emp_id = request.form['emp_id']
     temp_file = request.form['emp_file']
-    split_file = temp_file("/")
+    split_file = temp_file('/')
     emp_file = split_file[3]
     cursor = db_conn.cursor()
-    try:    
+    try: 
+        s3 = boto3.resource('s3')
+        s3.Object(bucket, emp_file).delete()
+        
         sql = "DELETE FROM employee WHERE emp_id = %s"
         delete_emp = (emp_id,)
         cursor.execute(sql, delete_emp)
@@ -37,9 +40,7 @@ def DeleteEmp():
     except Exception as e:
         return str(e)
     
-    s3 = boto3.resource('s3')
-    s3.Object(bucket, emp_file).delete()
-    
+
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM employee")
     data =  cursor.fetchall()

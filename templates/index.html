@@ -97,7 +97,7 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="/deleteemp" method="POST">
+										<form action="{{ url_for('deleteemp') }}" method="POST">
 										<tr>
 											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
@@ -120,6 +120,8 @@
 								</table>
 				
 				<form action="/deleteemp" method="POST">
+					<input type = "hidden" name="emp_id" value = "3"/>
+								<button class="btn btn-danger" type="submit">Delete</button>
 					<input type = "hidden" name="emp_id" value = "4"/>
 								<button class="btn btn-danger" type="submit">Delete</button>
 				</form>

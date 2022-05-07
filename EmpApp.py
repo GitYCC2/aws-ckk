@@ -21,6 +21,16 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee'
 
+@app.route("/deleteemp", methods=['POST'])
+def DeleteEmp():
+    emp_id = 5
+    #emp_file = request.form['emp_file']
+    cursor = db_conn.cursor()
+    cursor.execute("DELETE FROM employee WHERE emp_id = %s", (emp_id))
+    db_conn.commit()
+    #s3 = boto3.resource('s3')
+    #s3.Object(bucket, emp_file).delete()
+    render_template('AddEmp.html')
 
 def show_image(bucket):
     s3_client = boto3.client('s3')
@@ -123,17 +133,6 @@ def GetEmpData():
 @app.route("/fetchdata", methods=['GET'])
 def GoBackHome():
     return render_template('AddEmp.html')
-
-@app.route("/deleteemp", methods=['POST'])
-def DeleteEmp():
-    emp_id = 5
-    #emp_file = request.form['emp_file']
-    cursor = db_conn.cursor()
-    cursor.execute("DELETE FROM employee WHERE emp_id = %s", (emp_id))
-    db_conn.commit()
-    #s3 = boto3.resource('s3')
-    #s3.Object(bucket, emp_file).delete()
-    render_template('AddEmp.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

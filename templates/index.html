@@ -296,7 +296,7 @@
 
 									<tbody>
 										{% for row in emp_data %}
-										<form action="/deleteemp" method="POST" enctype="multipart/form-data">
+										<form action="/deleteemp" method="POST">
 										<tr>
 											<td><a href="{{row[0]}}"<div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
 												<input type="hidden" name="emp_file" value="{row[0]}"/>
@@ -317,7 +317,7 @@
 										{% endfor %}
 									</tbody>
 								</table>
-				<button class="btn btn-danger" type="submit" name="deleteBtn" formaction="/goaddemp">Delete</button>
+								<button class="btn btn-danger" type="submit" name="deleteBtn" formaction="/fetchdata" method="GET" onclick="myFunction()">Delete</button>
 							</div>
 						</div>
 					</div>
@@ -366,6 +366,10 @@
 	$(document).ready(function() {
 		$('#example').DataTable();
 	} );
+		
+		function myFunction(){
+			alert("yes");
+		}
 	
 	</script>
 

@@ -21,27 +21,29 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee'
 
-@app.route("/deleteemp", methods=['POST'])
-def DeleteEmp():
-    emp_id = request.form['emp_id']
-    #emp_file = request.form['emp_file']
-    temp_file = request.form['emp_file'].split('/')
-    split_file = temp_file[3].split('?')
-    emp_file = split_file[0]
-    
-    cursor = db_conn.cursor()
-    try: 
-        s3 = boto3.resource('s3')
-        s3.Object(bucket, emp_file).delete()
-        
-        sql = "DELETE FROM employee WHERE emp_id = %s"
-        delete_emp = (emp_id,)
-        cursor.execute(sql, delete_emp)
-        db_conn.commit()
-        cursor.close()
-    except Exception as e:
-        return str(e)
-    
+@app.route("/manageemp", methods=['POST'])
+def ManageEmp():
+    if request.form['submitBtn'] == 'deleteBtn':
+        emp_id = request.form['emp_id']
+        #emp_file = request.form['emp_file']
+        temp_file = request.form['emp_file'].split('/')
+        split_file = temp_file[3].split('?')
+        emp_file = split_file[0]
+
+        cursor = db_conn.cursor()
+        try: 
+            s3 = boto3.resource('s3')
+            s3.Object(bucket, emp_file).delete()
+
+            sql = "DELETE FROM employee WHERE emp_id = %s"
+            delete_emp = (emp_id,)
+            cursor.execute(sql, delete_emp)
+            db_conn.commit()
+            cursor.close()
+        except Exception as e:
+            return str(e)
+    elseif request.form['submitBtn'] == 'editBtn':
+        return render_template('AddEmp.html') 
 
     cursor = db_conn.cursor()
     cursor.execute("SELECT * FROM employee")

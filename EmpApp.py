@@ -272,8 +272,8 @@ def UpdateLeavePage():
 @app.route("/updateleave", methods=['POST'])
 def UpdateLeave():
     leave_id = request.form['leave_id']
-    start_date = request.form['start_date']
-    end_date = request.form['end_date']
+    start_date = request.form['startdate']
+    end_date = request.form['enddate']
     reason = request.form['reason']
     status = request.form['status']
     

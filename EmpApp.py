@@ -240,7 +240,7 @@ def AddLeavePage():
 def AddLeave():
     emp_id = request.form['emp_id']
     start_date = request.form['startdate']
-    end_date = request.form['enddatae']
+    end_date = request.form['enddate']
     reason = request.form['reason']
     status = 'Requested'
     

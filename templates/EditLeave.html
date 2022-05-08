@@ -98,18 +98,18 @@
 						<div class="mb-3">
 							<label for = "startdate" class="form-label">Start Date:</label> 
 							<div class="md-form md-outline input-with-post-icon datepicker">
-								<input placeholder="Select date" type="date" id="startdate" name="startdate" class="form-control" value="{% get_emp[1] %}">
+								<input placeholder="Select date" type="date" id="startdate" name="startdate" class="form-control" value="{{ get_emp[1] }}">
 							</div>
 						</div>
 						<div class="mb-3">
 							<label for = "enddate" class="form-label">End Date:</label> 
 							<div class="md-form md-outline input-with-post-icon datepicker">
-								<input placeholder="Select date" type="date" id="enddate" name="enddate" class="form-control" value="{% get_emp[2] %}">
+								<input placeholder="Select date" type="date" id="enddate" name="enddate" class="form-control" value="{{ get_emp[2] }}">
 							</div>
 						</div>
 						<div class="mb-3">
 							<label for = "reason" class="form-label">Reason:</label> 
-							<input type="text" name="reason" class="form-control" value="{% get_emp[3] %}">
+							<input type="text" name="reason" class="form-control" value="{{ get_emp[3] }}">
 						</div>
             <div class="mb-3">
               <label for = "status" class="form-label">Status:</label> 

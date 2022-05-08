@@ -261,9 +261,12 @@ def UpdateLeavePage():
     status = request.form['status']
     emp_id = request.form['emp_id']
     
+    cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
+    emp = cursor.fetchall()
+    
     get_emp = [emp_id, start_date, end_date, reason, status, leave_id]
     
-    return render_template('EditLeave.html', get_emp = get_emp)
+    return render_template('EditLeave.html', get_emp = get_emp, emp = emp)
     
 @app.route("/updateleave", methods=['POST'])
 def UpdateLeave():

@@ -261,6 +261,7 @@ def UpdateLeavePage():
     status = request.form['status']
     emp_id = request.form['emp_id']
     
+    cursor = db_conn.cursor()
     cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
     emp = cursor.fetchall()
     

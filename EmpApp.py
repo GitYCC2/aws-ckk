@@ -33,6 +33,56 @@ def show_image(bucket):
     # print("[INFO] : The contents inside show_image = ", public_urls)
     return public_urls
 
+@app.route("/addemp", methods=['POST'])
+def AddEmp():
+    emp_id = request.form['emp_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_image_file = request.files['emp_image_file']
+
+    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
+    cursor = db_conn.cursor()
+
+    if emp_image_file.filename == "":
+        return "Please select a file"
+
+    try:
+
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        db_conn.commit()
+        emp_name = "" + first_name + " " + last_name
+        # Uplaod image file in S3 #
+        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        s3 = boto3.resource('s3')
+
+        try:
+            print("Data inserted in MySQL RDS... uploading image to S3...")
+            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
+            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            s3_location = (bucket_location['LocationConstraint'])
+
+            if s3_location is None:
+                s3_location = ''
+            else:
+                s3_location = '-' + s3_location
+
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                s3_location,
+                custombucket,
+                emp_image_file_name_in_s3)
+
+        except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    print("all modification done...")
+    
+    return redirect(url_for('home'))
+
 @app.route("/manageemp", methods=['POST'])
 def ManageEmp():
     if request.form['submitBtn'] == 'deleteBtn':
@@ -173,10 +223,50 @@ def CheckOut():
 @app.route("/leave")
 def LeavePage():
     cursor = db_conn.cursor()
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, l.start_date, l.end_date, l.reason, l.status FROM employee e LEFT JOIN emp_leave l ON e.emp_id = l.emp_id WHERE l.start_date IS NOT NULL")
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, l.start_date, l.end_date, l.reason, l.status, l.leave_id FROM employee e LEFT JOIN emp_leave l ON e.emp_id = l.emp_id WHERE l.start_date IS NOT NULL")
     leave_data = cursor.fetchall()
     
-    return render_template('Leave.html' leave_data = leave_data)
+    return render_template('Leave.html', leave_data = leave_data)
+
+@app.route("/addleavepage")
+def AddLeavePage():
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
+    emp = cursor.fetchall()
+    
+    return render_template('AddLeave.html', emp = emp)
+
+@app.route("/addleave", methods=['POST'])
+def AddLeave():
+    emp_id = request.form['emp_id']
+    start_date = request.form['startdate']
+    end_date = request.form['enddatae']
+    reason = request.form['reason']
+    status = 'Requested'
+    
+    insert_sql = "INSERT INTO emp_leave (start_date, end_date, reason, status, emp_id) VALUES (%s, %s, %s, %s, %s)"
+    cursor = db_conn.cursor()
+    cursor.execute(insert_sql, (start_date, end_date, reason, status, emp_id))
+    db_conn.commit()
+    cursor.close()
+    
+    return redirect(url_for('LeavePage'))
+    
+@app.route("/updateleave", methods=["POST"])
+def UpdateLeave():
+    leave_id = request.form['leave_id']
+    status = request.form['status']
+    
+    update_sql = "UPDATE emp_leave SET status=%s WHERE leave_id=%s"
+    cursor = db_conn.cursor()
+    cursor.execute(update_sql, (status, leave_id))
+    db_conn.commit()
+    cursor.close()
+    
+    return redirect(url_for('LeavePage'))
+    
+
+    
     
 
 @app.route("/about", methods=['POST'])
@@ -186,56 +276,6 @@ def about():
 @app.route("/getemp", methods=['POST'])
 def GetEmp():
     return render_template('GetEmp.html')
-
-@app.route("/addemp", methods=['POST'])
-def AddEmp():
-    emp_id = request.form['emp_id']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    pri_skill = request.form['pri_skill']
-    location = request.form['location']
-    emp_image_file = request.files['emp_image_file']
-
-    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
-    cursor = db_conn.cursor()
-
-    if emp_image_file.filename == "":
-        return "Please select a file"
-
-    try:
-
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
-        db_conn.commit()
-        emp_name = "" + first_name + " " + last_name
-        # Uplaod image file in S3 #
-        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-        s3 = boto3.resource('s3')
-
-        try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
-
-            if s3_location is None:
-                s3_location = ''
-            else:
-                s3_location = '-' + s3_location
-
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                emp_image_file_name_in_s3)
-
-        except Exception as e:
-            return str(e)
-
-    finally:
-        cursor.close()
-
-    print("all modification done...")
-    
-    return redirect(url_for('home'))
 
 @app.route("/editemp")
 def GetEmpData():

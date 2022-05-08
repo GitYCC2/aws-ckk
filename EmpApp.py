@@ -251,15 +251,31 @@ def AddLeave():
     cursor.close()
     
     return redirect(url_for('LeavePage'))
+
+@app.route("/updateleavepage", methods=['POST'])
+def UpdateLeavePage():
+    leave_id = request.form['leave_id']
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
+    reason = request.form['reason']
+    status = request.form['status']
+    emp_id = request.form['emp_id']
     
-@app.route("/updateleave", methods=["POST"])
+    get_emp = [emp_id, start_date, end_date, reason, status, leave_id]
+    
+    return render_template('EditLeave.html', get_emp = get_emp)
+    
+@app.route("/updateleave", methods=['POST'])
 def UpdateLeave():
     leave_id = request.form['leave_id']
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
+    reason = request.form['reason']
     status = request.form['status']
     
-    update_sql = "UPDATE emp_leave SET status=%s WHERE leave_id=%s"
+    update_sql = "UPDATE emp_leave SET start_date=%s, end_date=%s, reason=%s, status=%s WHERE leave_id=%s"
     cursor = db_conn.cursor()
-    cursor.execute(update_sql, (status, leave_id))
+    cursor.execute(update_sql, (start_date, end_date, reason, status, leave_id))
     db_conn.commit()
     cursor.close()
     

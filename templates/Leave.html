@@ -10,7 +10,7 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="{{ url_for('static',filename='img/icons/icon-48x48.png') }}" />
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -19,7 +19,7 @@
 
 	<title>Employee Leave</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="{{ url_for('static',filename='css/app.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	
 	
@@ -77,7 +77,7 @@
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
 						<div class="position-relative">			
-							<a href="AddLeave.html"><button class="btn btn-primary">Create Leave</button></a>
+							<a href="/addleave"><button class="btn btn-primary">Create Leave</button></a>
 						</div>
 					</ul>
 				</div>
@@ -104,31 +104,16 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										{% for row in leave_data %}
 										<tr>
-											<td>A10</td>
-											<td>Tiger Nixon</td>
-											<td>2022-04-27</td>
-											<td>2022-04-28</td>
-											<td>Sick</td>
-											<td>Approved</td>
+											<td>{{row[0]}}</td>
+											<td>{{row[1]}} {{row[2]}}</td>
+											<td>{{row[3]}}</td>
+											<td>{{row[4]}}</td>
+											<td>{{row[5]}}</td>
+											<td>{{row[6]}}</td>
 										</tr>
-										<tr>
-											<td>A11</td>
-											<td>Tiger Nixon</td>
-											<td>2022-04-27</td>
-											<td>2022-04-28</td>
-											<td>Sick</td>
-											<td>Requested</td>
-										</tr>
-										<tr>
-											<td>A12</td>
-											<td>Tiger Nixon</td>
-											<td>2022-04-27</td>
-											<td>2022-04-28</td>
-											<td>Annual Leave</td>
-											<td>Requested</td>
-										</tr>
+										{% endfor %}
 									</tbody>
 								</table>
 							</div>
@@ -142,18 +127,14 @@
 
 
 
-	<script src="js/app.js"></script>
+	<script src="{{ url_for('static',filename='js/app.js') }}"></script>
 	
 	<script>
 
 	$(document).ready(function() {
 		$('#example').DataTable();
 	} );
-	
-	$(document).ready(function() {
-		$('.js-example-basic-single').select2();
-		
-	} );
+
 	</script>
 
 </body>

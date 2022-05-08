@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="{{ url_for('static',filename='img/icons/icon-48x48.png') }}" />
+	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+	
+	<title>Create Leave</title>
+
+	<link href="{{ url_for('static',filename='css/app.css') }}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+	
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+	
+</head>
+<style>
+.custom {
+    width: 10% !important;
+	margin-right: 5px;
+	margin-top: 10px;
+}
+</style>
+	<body>
+		<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<span class="sidebar-brand">Employee</span>
+				<ul class="sidebar-nav">
+					<li class="sidebar-item ">
+						<a class="sidebar-link" href="index.html">
+							<i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+						</a>
+					</li>
+					
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="Attendance.html">
+							<i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Attendance</span>
+						</a>
+					</li>
+					
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="/leave">
+							<i class="align-middle" data-feather="user-x"></i> <span class="align-middle">Leave</span>
+						</a>
+					</li>
+				</ul>
+
+			
+			</div>
+		</nav>
+		
+		<div class = "main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+			</nav>
+			
+			<main class="content">
+			<div class="container-fluid p-0">
+			
+			<h1 class="h3 mb-3">Edit Leave</h1>
+			
+		<div class = "row">
+		<div class="col-12 col-lg-6" style="width:100%;">
+		<div class="card">
+			<form action="/updateleave" autocomplete="on" method = "POST">				
+					
+					<div class="card-body">
+						<div class="mb-3">
+							<label for = "emp" class="form-label">Employee:</label> 
+              <input type = "hidden" name = "leave_id" value = "get_emp[5]"/>
+							<select class="js-example-basic-single" name="emp_id" style="width:100%;">
+								{% for row in emp %}
+								
+								<option value="{{row[0]}}"  {% if row[0] == get_emp[0] %} selected {% endif %}>{{row[0]}}: {{row[1]}} {{row[2]}}</option>
+															
+								{% endfor %}
+							</select>
+						</div>
+						<div class="mb-3">
+							<label for = "startdate" class="form-label">Start Date:</label> 
+							<div class="md-form md-outline input-with-post-icon datepicker">
+								<input placeholder="Select date" type="date" id="startdate" name="startdate" class="form-control" value="get_emp[1]">
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for = "enddate" class="form-label">End Date:</label> 
+							<div class="md-form md-outline input-with-post-icon datepicker">
+								<input placeholder="Select date" type="date" id="enddate" name="enddate" class="form-control" value="get_emp[2]">
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for = "reason" class="form-label">Reason:</label> 
+							<input type="text" name="reason" class="form-control" value="get_emp[3]">
+						</div>
+            <div class="mb-3">
+              <label for = "status" class="form-label">Status:</label> 
+							<select class="form-select" name="status">
+							  <option value="Requested" {% if get_emp[4] == 'Requested' %} selected {% endif %}>Requested</option>
+							  <option value="Approve" {% if get_status[4] == 'Approved' %} selected {% endif %}>Approved</option>
+							  <option value="Rejected" {% if get_status[4] == 'Rejected' %} selected {% endif %}>Rejected</option>
+							</select>
+            </div>
+						<div class="mb-3">
+							<button type="submit" class="btn btn-primary custom">Udpate</button>
+							<a href="Leave.html"><button type="button" class="btn btn-light custom">Cancel</button></a>
+						</div>						
+					</div>
+					</form>
+				</div>			
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</main>
+		</body>
+		
+		<script src="{{ url_for('static',filename='js/app.js') }}"></script>
+		<script>
+		$(document).ready(function() {
+			$('.js-example-basic-single').select2();
+		});
+		
+		</script>
+
+</html>

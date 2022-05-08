@@ -120,7 +120,8 @@
 						</div>
 						<div class="mb-3">
 							<label for = "employeeid" class="form-label">Employee ID:</label>
-							<input type="number" name="emp_id" autofocus size="40" class="form-control" value="{{row[1]}}" disabled>
+							<input type="number"  autofocus size="40" class="form-control" value="{{row[1]}}" disabled>
+							<input type="hidden" name="emp_id" value="{{row[1]}}"/>
 						</div>
 						<div class="mb-3">
 							<label for = "firstname" class="form-label">First Name:</label> 

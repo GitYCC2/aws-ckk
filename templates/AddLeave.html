@@ -9,12 +9,12 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="{{ url_for('static',filename='img/icons/icon-48x48.png') }}" />
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 	
 	<title>Create Leave</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="{{ url_for('static',filename='css/app.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	
 	
@@ -55,14 +55,8 @@
 						</a>
 					</li>
 					
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="Payroll.html">
-							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Payroll</span>
-						</a>
-					</li>
-					
 					<li class="sidebar-item active">
-						<a class="sidebar-link" href="Leave.html">
+						<a class="sidebar-link" href="/leave">
 							<i class="align-middle" data-feather="user-x"></i> <span class="align-middle">Leave</span>
 						</a>
 					</li>
@@ -93,9 +87,11 @@
 						<div class="mb-3">
 							<label for = "emp" class="form-label">Employee:</label> 
 							<select class="js-example-basic-single" name="emp_id" style="width:100%;">
-								<option value="AL">Alabama</option>
-							
-								<option value="WY">Wyoming</option>
+								{% for row in emp %}
+								
+								<option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
+															
+								{% endfor %}
 							</select>
 						</div>
 						<div class="mb-3">
@@ -129,7 +125,7 @@
 			</main>
 		</body>
 		
-		<script src="js/app.js"></script>
+		<script src="{{ url_for('static',filename='js/app.js') }}"></script>
 		<script>
 		$(document).ready(function() {
 			$('.js-example-basic-single').select2();

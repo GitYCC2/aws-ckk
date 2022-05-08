@@ -168,7 +168,15 @@ def CheckOut():
     db_conn.commit()
     cursor.close()
     
-    return redirect(url_for('AttendancePage'))    
+    return redirect(url_for('AttendancePage'))  
+
+@app.route("/leave")
+def LeavePage():
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, l.start_date, l.end_date, l.reason, l.status FROM employee e LEFT JOIN emp_leave l ON e.emp_id = l.emp_id WHERE l.start_date IS NOT NULL")
+    leave_data = cursor.fetchall()
+    
+    return render_template('Leave.html' leave_data = leave_data)
     
 
 @app.route("/about", methods=['POST'])

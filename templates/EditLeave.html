@@ -115,13 +115,13 @@
               <label for = "status" class="form-label">Status:</label> 
 							<select class="form-select" name="status">
 							  <option value="Requested" {% if get_emp[4] == 'Requested' %} selected {% endif %}>Requested</option>
-							  <option value="Approve" {% if get_emp[4] == 'Approved' %} selected {% endif %}>Approved</option>
+							  <option value="Approved" {% if get_emp[4] == 'Approved' %} selected {% endif %}>Approved</option>
 							  <option value="Rejected" {% if get_emp[4] == 'Rejected' %} selected {% endif %}>Rejected</option>
 							</select>
             </div>
 						<div class="mb-3">
 							<button type="submit" class="btn btn-primary custom">Udpate</button>
-							<a href="Leave.html"><button type="button" class="btn btn-light custom">Cancel</button></a>
+							<a href="/leave"><button type="button" class="btn btn-light custom">Cancel</button></a>
 						</div>						
 					</div>
 					</form>

@@ -101,17 +101,23 @@
 											<th>To</th>
 											<th>Reason</th>
 											<th>Status</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
 										{% for row in leave_data %}
 										<tr>
-											<td>{{row[0]}}</td>
+											<form action="/updateleavepage" method="POST">
+												
+											<td>{{row[0]}} <input type="hidden" name="emp_id" value="{{row[0]}}"></td>
 											<td>{{row[1]}} {{row[2]}}</td>
-											<td>{{row[3]}}</td>
-											<td>{{row[4]}}</td>
-											<td>{{row[5]}}</td>
-											<td>{{row[6]}}</td>
+											<td>{{row[3]}} <input type="hidden" name="start_date" value="{{row[3]}}"></td>
+											<td>{{row[4]}} <input type="hidden" name="end_date" value="{{row[4]}}"></td>
+											<td>{{row[5]}} <input type="hidden" name="reason" value="{{row[5]}}"></td>
+											<td>{{row[6]}} <input type="hidden" name="emp_id" value="{{row[6]}}"></td>
+											<td><button class="btn btn-warning" type="submit" value="editBtn">Edit</button></td>
+											
+											</form>
 										</tr>
 										{% endfor %}
 									</tbody>

@@ -9,6 +9,7 @@ cd aws-testing1
 pip3 install flask
 pip3 install pymysql
 pip3 install boto3
+pip3 install numpy
 python3 EmpApp.py
 
 

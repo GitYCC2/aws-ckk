@@ -337,7 +337,7 @@ def AddPayrollPage():
     last_name = result[3]
     hour = result[1]
     
-    data = [emp_id, first_name, last_name, checkout_date, total, hour]
+    data = [emp_id, first_name, last_name, checkout_date[0], total, hour]
     
     return render_template('AddPayroll.html', data = data)
 

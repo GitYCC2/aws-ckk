@@ -337,9 +337,9 @@ def AddPayrollPage():
     last_name = result[3]
     hour = result[1]
     
-    row = [emp_id, first_name, last_name, checkout_date, total, hour]
+    data = [emp_id, first_name, last_name, checkout_date, total, hour]
     
-    return render_template('AddPayroll.html', row = row)
+    return render_template('AddPayroll.html', data = data)
 
 @app.route("/about", methods=['POST'])
 def about():

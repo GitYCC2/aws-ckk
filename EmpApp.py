@@ -292,7 +292,7 @@ def PayrollPage():
     cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
     emp = cursor.fetchall()
       
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id");
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id WHERE a.pay_date IS NOT NULL");
     payroll = cursor.fetchall()
     
     return render_template('Payroll.html', emp = emp, payroll = payroll)
@@ -301,12 +301,12 @@ def PayrollPage():
 def AddPayrollPage():
     emp_id = request.form['emp_id']
     cursor = db_conn.cursor()
-    select_sql = "SELECT checkout_date FROM attendance WHERE emp_id=? ORDER BY checkout_date DESC LIMIT 1"
+    select_sql = "SELECT checkout_date FROM attendance WHERE emp_id=%s ORDER BY checkout_date DESC LIMIT 1"
     cursor = db_conn.cursor()
     cursor.execute(select_sql, (emp_id))
     checkout_date = cursor.fetchall()
     
-    select_sql2 = "SELECT pay_date FROM payroll WHERE emp_id=? ORDER BY pay_date DESC LIMIT 1"
+    select_sql2 = "SELECT pay_date FROM payroll WHERE emp_id=%s ORDER BY pay_date DESC LIMIT 1"
     cursor = db_conn.cursor()
     cursor.execute(select_sql2, (emp_id))
     pay_date = cursor.fetchall()

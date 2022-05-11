@@ -292,7 +292,7 @@ def PayrollPage():
     cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
     emp = cursor.fetchall()
       
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id WHERE p.pay_date IS NOT NULL");
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits, p.working_hour FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id WHERE p.pay_date IS NOT NULL");
     payroll = cursor.fetchall()
     
     return render_template('Payroll.html', emp = emp, payroll = payroll)
@@ -341,6 +341,27 @@ def AddPayrollPage():
     
     return render_template('AddPayroll.html', data = data)
 
+@app.route("/addpayroll", methods=['POST'])
+def AddPayroll():
+    emp_id = request.form['emp_id']
+    pay_date = request.form['pay_date']
+    total = request.form['total']
+    until = request.form['until']
+    benefits = request.form['benefit']
+    working_hour = request.form['hour']
+    
+    insert_sql = "INSERT INTO payroll (pay_date, total, until, benefits, working_hour, emp_id) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor = db_conn.cursor()
+    cursor.execute(insert_sql, (pay_date, total, until, benefits, working_hour, emp_id))
+    db_conn.commit()
+    cursor.close()
+    
+    return redirect(url_for('PayrollPage'))
+    
+    
+    
+    
+    
 @app.route("/about", methods=['POST'])
 def about():
     return render_template('www.intellipaat.com')

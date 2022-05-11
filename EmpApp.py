@@ -309,16 +309,16 @@ def AddPayrollPage():
     select_sql2 = "SELECT pay_date FROM payroll WHERE emp_id=%s ORDER BY pay_date DESC LIMIT 1"
     cursor = db_conn.cursor()
     cursor.execute(select_sql2, (emp_id))
-    pay_date = cursor.fetchall()
+    pay_date = cursor.fetchone()
     
-    if pay_date[0] == None:
+    if pay_date:
         select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_date <= $s AND a.emp_id = %s"
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (checkout_date[0], emp_id))
     else:
         select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > $s AND a.checkout_date <= $s AND a.emp_id = %s"
         cursor = db_conn.cursor()
-        cursor.execute(select_sql3, (pay_date[0], checkout_date[0], emp_id))
+        cursor.execute(select_sql3, (pay_date, checkout_date[0], emp_id))
 
     result = cursor.fetchall()
     

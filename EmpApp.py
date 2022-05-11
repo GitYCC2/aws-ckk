@@ -312,18 +312,18 @@ def AddPayrollPage():
     pay_date = cursor.fetchone()
     
     if not pay_date:
-        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_date <= %s AND a.emp_id = %s"
+        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time) - HOUR(a.checkin_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_date <= %s AND a.emp_id = %s"
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (checkout_date[0], emp_id))
     else:
-        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > %s AND a.checkout_date <= %s AND a.emp_id = %s"
+        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time) - HOUR(a.checkin_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > %s AND a.checkout_date <= %s AND a.emp_id = %s"
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (pay_date[0], checkout_date[0], emp_id))
 
     result = cursor.fetchone()
     
     if result[0] == "Project Manager":
-        total = 100 * result[1]
+        total = 70 * result[1]
     elif result[0] == "Cloud Architect":
         total = 50 * result[1]
     elif result[0] == "Web Developer":

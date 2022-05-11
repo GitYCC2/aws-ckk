@@ -286,8 +286,56 @@ def UpdateLeave():
     return redirect(url_for('LeavePage'))
     
 
+@app.route("/payroll")
+def PayrollPage():
+    cursor = db_conn.cursor()
+    cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
+    emp = cursor.fetchall()
+      
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id");
+    payroll = cursor.fetchall()
     
+    return render_template('Payroll.html', emp = emp, payroll = payroll)
     
+@app.route("/emppay", methods=['POST'])
+def AddPayrollPage():
+    emp_id = request.form['emp_id']
+    cursor = db_conn.cursor()
+    select_sql = "SELECT checkout_date FROM attendance WHERE emp_id=? ORDER BY checkout_date DESC LIMIT 1"
+    cursor = db_conn.cursor()
+    cursor.execute(select_sql, (emp_id))
+    checkout_date = cursor.fetchall()
+    
+    select_sql2 = "SELECT pay_date FROM payroll WHERE emp_id=? ORDER BY pay_date DESC LIMIT 1"
+    cursor = db_conn.cursor()
+    cursor.execute(select_sql2, (emp_id))
+    pay_date = cursor.fetchall()
+    
+    if pay_date[0] == None:
+        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id WHERE a.checkout_date <= $s AND a.emp_id = %s"
+        cursor = db_conn.cursor()
+        cursor.execute(select_sql3, (checkout_date[0], emp_id))
+    else:
+        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > $s AND a.checkout_date <= $s AND a.emp_id = %s"
+        cursor = db_conn.cursor()
+        cursor.execute(select_sql3, (pay_date[0], checkout_date[0], emp_id))
+
+    result = cursor.fetchall()
+    
+    if result[0] == "Project Manager":
+        total = 100 * result[1]
+    elif result[0] == "Cloud Architect":
+        total = 50 * result[1]
+    elif result[0] == "Web Developer":
+        total = 45 * result[1]
+    elif result[0] == "Network Administrator":
+        total = 55 * result[1]
+    elif result[0] == "IT Support":
+        total = 30 * result[1]
+    
+    row = [emp_id, result[2], result[3], checkout_date[0], total, result[1]]
+    
+    return render_template("AddPayroll.html", row = row)
 
 @app.route("/about", methods=['POST'])
 def about():

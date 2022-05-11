@@ -333,7 +333,11 @@ def AddPayrollPage():
     elif result[0] == "IT Support":
         total = 30 * result[1]
     
-    row = [emp_id, result[2], result[2], checkout_date, total, result[1]]
+    first_name = result[2]
+    last_name = result[3]
+    hour = result[1]
+    
+    row = [emp_id, first_name, last_name, checkout_date, total, hour]
     
     return render_template("AddPayroll.html", row = row)
 

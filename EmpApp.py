@@ -292,7 +292,7 @@ def PayrollPage():
     cursor.execute("SELECT emp_id, first_name, last_name FROM employee")
     emp = cursor.fetchall()
       
-    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id WHERE a.pay_date IS NOT NULL");
+    cursor.execute("SELECT e.emp_id, e.first_name, e.last_name, p.pay_date, p.total, p.until, p.benefits FROM employee e LEFT JOIN payroll p ON e.emp_id = p.emp_id WHERE p.pay_date IS NOT NULL");
     payroll = cursor.fetchall()
     
     return render_template('Payroll.html', emp = emp, payroll = payroll)

@@ -320,7 +320,7 @@ def AddPayrollPage():
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (pay_date, checkout_date, emp_id))
 
-    result = cursor.fetchall()
+    result = cursor.fetcone()
     
     if result[0] == "Project Manager":
         total = 100 * result[1]

@@ -93,8 +93,8 @@
 					<div class="card-body">
 						<div class="mb-3">
 							<label for = "employeeid" class="form-label">Employee:</label>						
-							<input type = "text" value = "{{row[0]: row[1] row[2]}}" class="form-control">
-							<input type="hidden" name="emp_id" value = "{{row[0]}}" class="form-control">
+							<input type = "text" value = "{{data[0]: data[1] data[2]}}" class="form-control">
+							<input type="hidden" name="emp_id" value = "{{data[0]}}" class="form-control">
 						</div>
 						<div class="mb-3">
 							<label for = "date" class="form-label">Date:</label> 
@@ -102,15 +102,15 @@
 						</div>
 						<div class="mb-3">
 							<label for = "until" class="form-label">Until:</label> 
-							<input type="text" name="until" class="form-control" value = "{{row[3]}}">
+							<input type="text" name="until" class="form-control" value = "{{data[3]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "total" class="form-label">Total:</label> 
-							<input type="number" name="total" class="form-control" value = "{{row[4]}}">
+							<input type="text" name="total" class="form-control" value = "{{data[4]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "hour" class="form-label">Working Hours:</label> 
-							<input type="number" name="hour" class="form-control" value = "{{row[5]}}">
+							<input type="number" name="hour" class="form-control" value = "{{data[5]}}">
 						</div>
 						<div class="mb-3">
 							<label for = "benefit" class="form-label">Benefits:</label> 

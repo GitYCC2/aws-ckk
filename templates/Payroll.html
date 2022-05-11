@@ -96,7 +96,7 @@
 					<form action = "/emppay" method="POST">
 						<div class="mb-3">
 							<label for = "empName" class="form-label">Employee Name:</label>
-							<select class="js-example-basic-single" name="emp" style="width:100%;" id = "nameList">
+							<select class="js-example-basic-single" name="emp_id" style="width:100%;" id = "nameList">
 								
 								{% for row in emp %}
 							  <option value="{{row[0]}}">{{row[0]}}: {{row[1]}} {{row[2]}}</option>
@@ -135,17 +135,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										{% for row in payroll %}
 										<tr>
-											{% for row in payroll %}
+											
 											<td>{{row[0]}}</td>
 											<td>{{row[1]}} {{row[2]}}</td>
 											<td>{{row[3]}}</td>
 											<td>{{row[5]}}</td>
 											<td>RM {{row[4]}}</td>
 											<td>RM {{row[6]}}</td>
-											{% endfor %}
+											
 										</tr>
+										{% endfor %}
 									</tbody>
 								</table>
 							</div>

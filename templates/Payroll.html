@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+	<title>Payroll</title>
+
+	<link href="css/app.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+	
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<span class="sidebar-brand">Employee</span>
+				<ul class="sidebar-nav">
+
+					<li class="sidebar-item ">
+						<a class="sidebar-link" href="/">
+							<i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+						</a>
+					</li>
+					
+					<li class="sidebar-item ">
+						<a class="sidebar-link" href="/attendance">
+							<i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Attendance</span>
+						</a>
+					</li>
+					
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="/payroll">
+							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Payroll</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="/leave">
+							<i class="align-middle" data-feather="user-x"></i> <span class="align-middle">Leave</span>
+						</a>
+					</li>
+				</ul>		
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+				
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<div class="position-relative">			
+							<button class="btn btn-primary" data-toggle="modal" data-target="#payrollModel">Create Payroll</button>
+						</div>
+					</ul>
+				</div>
+			</nav>
+			
+			<!-- Modal Check-In -->
+			<div class="modal fade" id="payrollModel" role="dialog" aria-labelledby="payrollModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="payrollModalLabel">Payroll</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					<form action = "/emppay" method="POST">
+						<div class="mb-3">
+							<label for = "empName" class="form-label">Employee Name:</label>
+							<select class="js-example-basic-single" name="emp" style="width:100%;" id = "nameList">
+							  <option value="">Chi Chun</option>
+							  <option value="">Jia Kang</option>					
+							  <option value="">Kok Keong</option>
+							</select>
+						</div>				
+				  </div>
+				  <div class="modal-footer">
+						<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Submit</button>	
+				  </div>
+				  </form>
+				</div>
+			  </div>
+			</div>
+
+			<main class="content">
+				<div class="container-fluid p-0">
+
+					<h1 class="h3 mb-3">Payroll Management</h1>
+				
+					<div class="row">
+						<div class="col-12 col-lg-8 col-xxl-9 d-flex w-100">
+							<div class="card flex-fill" style="padding:10px;">
+								
+								<table id="example" class="table table-hover table-striped" style="width:100%;">
+									<thead>
+										<tr>
+											<th>Employee ID</th>
+											<th>Name</th>
+											<th>Pay Date</th>
+											<th>Until</th>
+											<th>Total</th>
+											<th>Benefits</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+										<tr>
+											<td>A10</td>
+											<td>Tiger Nixon</td>
+											<td>2022-04-27</td>
+											<td>2022-04-27</td>
+											<td>RM 12.00</td>
+											<td>RM 0</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</main>
+		</div>
+	</div>
+
+	<script src="js/app.js"></script>
+	
+	<script>
+
+	$(document).ready(function() {
+		$('#example').DataTable();
+	} );
+	
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+		
+	} );
+	
+		$(document).ready(function() {
+			$("#nameList").select2({
+			dropdownParent: $("#payrollModel")
+	  });
+	});
+	</script>
+
+</body>
+
+</html>

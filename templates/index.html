@@ -26,6 +26,14 @@
 	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 </head>
+	
+<style>
+.rounded-circle{
+	border-radius:50%;
+	width:50px;
+	height:50px;
+}
+</style>
 
 <body>
 	<div class="wrapper">
@@ -99,7 +107,7 @@
 											<th>Employee ID</th>
 											<th>First Name</th>
 											<th>Last Name</th>
-											<th>Primary Skills</th>
+											<th>Job Title</th>
 											<th>Location</th>		
 											<th>Actions</th>
 										</tr>
@@ -111,7 +119,7 @@
 										
 										<tr>
 											<form action="/manageemp" method="POST">
-											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}" width="40">
+											<td><div class="d-flex align-items-center"><img class="rounded-circle" src="{{row[0]}}">
 												<input type="hidden" name="emp_file" value="{{row[0]}}"/>
 											</div>
 											</td>

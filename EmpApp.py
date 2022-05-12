@@ -306,7 +306,7 @@ def AddPayrollPage():
     cursor.execute(select_sql, (emp_id))
     checkout_date = cursor.fetchone()
     
-    select_sql2 = "SELECT pay_date FROM payroll WHERE emp_id=%s ORDER BY pay_date DESC LIMIT 1"
+    select_sql2 = "SELECT pay_date, until FROM payroll WHERE emp_id=%s ORDER BY pay_date DESC LIMIT 1"
     cursor = db_conn.cursor()
     cursor.execute(select_sql2, (emp_id))
     pay_date = cursor.fetchone()
@@ -316,9 +316,12 @@ def AddPayrollPage():
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (checkout_date[0], emp_id))
     else:
-        select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time) - HOUR(a.checkin_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > %s AND a.checkout_date <= %s AND a.emp_id = %s"
-        cursor = db_conn.cursor()
-        cursor.execute(select_sql3, (pay_date[0], checkout_date[0], emp_id))
+        if checkout_date[0] == pay_date[1]
+            return redirect(url_for('PayrollPage'))
+        else:         
+            select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time) - HOUR(a.checkin_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > %s AND a.checkout_date <= %s AND a.emp_id = %s"
+            cursor = db_conn.cursor()
+            cursor.execute(select_sql3, (pay_date[0], checkout_date[0], emp_id))
 
     result = cursor.fetchone()
     

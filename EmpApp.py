@@ -316,7 +316,7 @@ def AddPayrollPage():
         cursor = db_conn.cursor()
         cursor.execute(select_sql3, (checkout_date[0], emp_id))
     else:
-        if checkout_date[0] == pay_date[1]
+        if checkout_date[0] == pay_date[1]:
             return redirect(url_for('PayrollPage'))
         else:         
             select_sql3 = "SELECT e.pri_skill, SUM(HOUR(a.checkout_time) - HOUR(a.checkin_time)), e.first_name, e.last_name FROM employee e LEFT JOIN attendance a ON e.emp_id = a.emp_id LEFT JOIN payroll p ON p.emp_id = e.emp_ID WHERE p.pay_date > %s AND a.checkout_date <= %s AND a.emp_id = %s"
